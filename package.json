@@ -1,6 +1,6 @@
 {
   "name": "paws-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "bin": {
     "paws": "./bin/paws.js"
@@ -13,7 +13,7 @@
     "pricing"
   ],
   "author": "Brice Dauzats",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "colors": "^1.1.2",
     "commander": "^2.13.0",
