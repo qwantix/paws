@@ -1,0 +1,23 @@
+{
+  "name": "paws",
+  "version": "0.1.0",
+  "description": "",
+  "bin": {
+    "paws": "./bin/paws.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aws",
+    "pricing"
+  ],
+  "author": "Brice Dauzats",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.13.0",
+    "js-yaml": "^3.10.0",
+    "sync-request": "^4.1.0"
+  }
+}

@@ -1,0 +1,16 @@
+vars:
+  eventsByDay: 4000000
+
+defaults:
+  region: eu-west-1
+  
+services:
+  lambda:
+    myFooLambda:
+      size: 128
+      invocations: ${eventsByDay}
+  ec2:
+    server:
+      lease: 1yr
+      upfront: partial
+      instanceType: m3.medium
