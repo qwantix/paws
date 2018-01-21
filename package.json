@@ -1,5 +1,5 @@
 {
-  "name": "paws",
+  "name": "paws-cli",
   "version": "0.1.0",
   "description": "",
   "bin": {

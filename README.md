@@ -1,5 +1,5 @@
 # PAWS
-=================
+
 
 Simple AWS pricing cli
 
@@ -37,7 +37,7 @@ Available regions:
 
 ```
 
-List search instances 
+List instances 
 ```
 > paws ec2 ec2 instanceTypes -r eu-west-1 --family general
 
@@ -101,5 +101,5 @@ TOTAL
 
 ```
 
-Be patient, the first call may take some times
+Be patient, the first call may take some time
 
