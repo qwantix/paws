@@ -67,15 +67,38 @@ Available instances:
  -  t2.small
 ```
 
+Get more informations
+```
+> paws ec2 instanceTypes -r eu-west-1  --search m3.medium --details
+
+Available instances:
+
+ -  m3.medium
+        Family                     :    General purpose
+        Current Generation         :    Yes
+        vCPU                       :    1
+        ecu                        :    3
+        Physical Processor         :    Intel Xeon E5-2670 v2 (Ivy Bridge/Sandy Bridge)
+        Processor Features         :    Intel AVX; Intel Turbo
+        Architecture               :    64-bit
+        Clock Speed                :    2.5 GHz
+        Memory                     :    3.75 GiB
+        Storage                    :    1 x 4 SSD
+        Network Performance        :    Moderate
+        Normalization Size Factor  :    2
+        Operating System           :    Windows, RHEL, SUSE, Linux
+```
+
 
 Quote service
 ```
-> paws ec2 quote -r eu-west-1-i m3.medium --lease 1yr --upfront partial
+> paws ec2 quote -r eu-west-1 -i m3.medium --lease 1yr --upfront partial
 
 » Total Monthly: $40.88/month
 » Initial Fee: $468.00
 » Smoothed monthly: $79.88/month
 ```
+
 
 Quote file
 ```
