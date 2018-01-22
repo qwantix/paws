@@ -26,24 +26,7 @@ program.executeSubCommand = function (argv, args, unknow) {
   this.outputHelp();
 };
 
-function getParser(type) {
-  let args;
-  let typeName = type;
-  if (type instanceof Array) {
-    typeName = type[0];
-    args = type[1];
-  }
-  switch (typeName) {
-    case 'count':
-      return v => parseInt(v);
-    case 'duration':
-      return v => util.parseDuration(v, args || 's');
-    case 'bytes':
-      return v => util.parseBytes(v, args || 'k');
-    default:
-      return v => v;
-  }
-}
+
 
 function generateOption(cmd, name, def) {
   let optName = `--${name}`;
@@ -63,7 +46,7 @@ function generateOption(cmd, name, def) {
     def.description += ` (${def.values.join(', ')})`;
   }
 
-  cmd.option(optName, def.description, def.parser || getParser(def.type), def.default || null);
+  cmd.option(optName, def.description, def.parser || util.getParser(def.type), def.default || null);
 }
 
 Object.keys(services).forEach((serviceName) => {
