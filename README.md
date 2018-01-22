@@ -39,7 +39,7 @@ Available regions:
 
 List instances 
 ```
-> paws ec2 ec2 instanceTypes -r eu-west-1 --family general
+> paws ec2 instanceTypes -r eu-west-1 --family general
 
 Available instances:
 
