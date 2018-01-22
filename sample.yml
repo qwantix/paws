@@ -14,3 +14,7 @@ services:
       lease: 1yr
       upfront: partial
       instanceType: m3.medium
+
+  s3:
+    myBucket:
+      volume: 10Go
