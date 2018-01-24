@@ -33,7 +33,7 @@ function generateOption(cmd, name, def) {
   if (def.short) {
     optName = `-${def.short}, ${optName}`;
   }
-  if (def.type !== 'bool') {
+  if (def.type !== 'bool' || (def.type === 'bool' && def.default)) {
     optName += def.required ? ' <value>' : ' [value]';
   }
 
@@ -45,13 +45,11 @@ function generateOption(cmd, name, def) {
     def.parser = v => ~def.values.indexOf(v) ? v : undefined;
     def.description += ` (${def.values.join(', ')})`;
   }
-
   cmd.option(optName, def.description, def.parser || util.getParser(def.type), def.default || null);
 }
 
 Object.keys(services).forEach((serviceName) => {
   const service = services[serviceName];
-
 
   const serviceCmd = program.command(service.alias)
     .description(`Service ${service.name}`);
@@ -78,7 +76,6 @@ Object.keys(services).forEach((serviceName) => {
     })
 
     c.action((c) => {
-
       for (const o of c.options) {
         const name = o.attributeName();
         const value = c[name];
@@ -95,6 +92,10 @@ Object.keys(services).forEach((serviceName) => {
         params[name] = c[name];
       }
       const out = command.handler(params);
+      if (!out) {
+        console.error('Process exited');
+        process.exit(1);
+      }
       if (params.output === 'json') {
         return console.log(JSON.stringify(out));
       }

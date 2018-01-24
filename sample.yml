@@ -18,3 +18,8 @@ services:
   s3:
     myBucket:
       volume: 10Go
+
+  dynamodb:
+    myDynamo:
+      reads: 10/s
+      writes: 10/min
