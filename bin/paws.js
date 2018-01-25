@@ -40,12 +40,12 @@ function generateOption(cmd, name, def) {
   if (typeof def.values === 'function') {
     def.values = def.values();
   }
-
+  let description = def.description;
   if (def.values) {
     def.parser = v => ~def.values.indexOf(v) ? v : undefined;
-    def.description += ` (${def.values.join(', ')})`;
+    description += ` (${def.values.join(', ')})`;
   }
-  cmd.option(optName, def.description, def.parser || util.getParser(def.type), def.default || null);
+  cmd.option(optName, description, def.parser || util.getParser(def.type), def.default || null);
 }
 
 Object.keys(services).forEach((serviceName) => {
