@@ -10,7 +10,7 @@ services:
       size: 128
       invocations: ${eventsByDay}
   ec2:
-    server:
+    myServer:
       lease: 1yr
       upfront: partial
       instanceType: m3.medium
