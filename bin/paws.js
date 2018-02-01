@@ -91,11 +91,10 @@ Object.keys(services).forEach((serviceName) => {
       for (const name in command.params) {
         params[name] = c[name];
       }
-      const out = command.handler(params);
-      if (!out) {
-        console.error('Process exited');
-        process.exit(1);
-      }
+
+      const out = service.exec(name, params);
+
+
       if (params.output === 'json') {
         return console.log(JSON.stringify(out));
       }
