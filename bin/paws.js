@@ -11,7 +11,11 @@ const cli = require('../lib/cli');
 const pricing = require('../lib/pricing');
 const outputs = require('../lib/outputs');
 const quoteFile = require('../lib/quoteFile');
-program.version('1.0.0');
+
+const pkg = require('../package');
+
+
+program.version(pkg.version);
 
 // Little tricky override
 program.executables = true;
