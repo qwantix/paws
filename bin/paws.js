@@ -7,10 +7,10 @@ const colors = require('colors');
 
 const services = require('../lib/services');
 const util = require('../lib/util');
+const cli = require('../lib/cli');
 const pricing = require('../lib/pricing');
 const outputs = require('../lib/outputs');
 const quoteFile = require('../lib/quoteFile');
-
 program.version('1.0.0');
 
 // Little tricky override
@@ -22,7 +22,7 @@ program.executeSubCommand = function (argv, args, unknow) {
       return c.parse(Array(2).concat(args, unknow));
     }
   }
-  console.log('Command not found');
+  cli.error('Command not found');
   this.outputHelp();
 };
 
@@ -81,7 +81,7 @@ Object.keys(services).forEach((serviceName) => {
         const value = c[name];
         if (o.required && ((typeof value === 'number' && isNaN(value)) || value === undefined || value === null)
           || (!o.required && value !== o.defaultValue && value === undefined)) {
-          console.error(colors.red(`\n error: option --${o.name()} is invalid\n`));
+          cli.error(`error: option --${o.name()} is invalid\n`);
           c.outputHelp(colors.red);
           process.exit(1);
         }
@@ -94,7 +94,6 @@ Object.keys(services).forEach((serviceName) => {
 
       const out = service.exec(name, params);
 
-
       if (params.output === 'json') {
         return console.log(JSON.stringify(out));
       }
@@ -104,7 +103,7 @@ Object.keys(services).forEach((serviceName) => {
       if (outputs[name] && outputs[name].pretty) {
         return outputs[name].pretty(out, params);
       }
-      console.error('Undefined output');
+      cli.error('error: Undefined output');
     });
 
     return c;
