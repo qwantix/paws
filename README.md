@@ -45,9 +45,20 @@ This command allow to estimate cost of service.
 ```
 > paws ec2 quote -r eu-west-1 -i m3.medium --lease 1yr --upfront partial
 
-» Total Monthly: $40.88/month
-» Initial Fee: $468.00
-» Smoothed monthly: $79.88/month
+Monthly fees:
+  Linux/UNIX (Amazon VPC), m3.medium reserved instance applied
+   └─  0.027 USD * 730 (Hrs) = 19.710 USD
+
+One-time initial fees:
+  Upfront Fee
+   └─  211.000 USD
+
+Total:
+
+└─ Total Monthly: $19.71 /month
+└─ Initial Fee: $211.00
+└─ Smoothed monthly: $37.29 /month
+
 ```
 
 Here smoothed monthly is **Total Monthly** + **Initial fee** / (**leasing duration** * 12)   
@@ -55,11 +66,38 @@ Here smoothed monthly is **Total Monthly** + **Initial fee** / (**leasing durati
 **Quote service s3**
 ```
 > paws s3 quote -r eu-west-1 --volume 16Go
-» Total Monthly: $0.37/month
+
+Monthly fees:
+  $0.023 per GB - first 50 TB / month of storage used
+   └─  0.023 USD * 16 (GB-Mo) = 0.368 USD
+
+Total:
+
+└─ Total Monthly: $0.37 /month
 ```
+
+**Paramaters tips**
+To? Go? Ko? hours ? minutes? Don't worry with units! When you use parameters, PAW convert with the invoicing unit used by AWS
+
+Paws understand suffix bellow :
+
+- bytes: Kb, Mb, Gb, Tb, Pb, Eb, Ko, Mo, Go, To, Po, Eo, K, M, G, T, P, E
+- duration: d, h, m, s
+- ops/s: /d, /h, /m, /s
+
+_e.g.:_
+```
+--storage 8Go
+--duration 45h
+--reads 10/s
+```
+
+
+
 
 **Important:**
 To estimate cost, paws load pricing file from aws. Some files (like ec2) are heavy and may take time to load. Be patient, files are put in local cache `/tmp/paws`
+
 
 
 
@@ -107,33 +145,68 @@ Each services must be named (eg: myFooLambda)
 ```
 > paws quote sample.yml
 
-lambda myFooLambda
+lambda/ myFooLambda
 ──────────────────────────────────
-  » Total Monthly: $9.13/month
+Monthly fees:
+   AWS Lambda - Total Requests - EU (Ireland)
+    └─  2e-7 USD * 4000000 (Requests) = 0.800 USD
+   AWS Lambda - Total Compute - EU (Ireland)
+    └─  0.0000166667 USD * 500000 (Second) = 8.333 USD
 
-ec2 myServer
-──────────────────────────────────
-  » Total Monthly: $40.88/month
-  » Initial Fee: $468.00
-  » Smoothed monthly: $79.88/month
+Total:
 
-s3 myBucket
-──────────────────────────────────
-  » Total Monthly: $0.23/month
+ └─ Total Monthly: $9.13 /month
 
-dynamodb myDynamo
+ec2/ myServer
 ──────────────────────────────────
-  » Total Monthly: $0.00/month
+Monthly fees:
+   Linux/UNIX (Amazon VPC), m3.medium reserved instance applied
+    └─  0.027 USD * 730 (Hrs) = 19.710 USD
+
+One-time initial fees:
+   Upfront Fee
+    └─  211.000 USD
+
+Total:
+
+ └─ Total Monthly: $19.71 /month
+ └─ Initial Fee: $211.00
+ └─ Smoothed monthly: $37.29 /month
+
+s3/ myBucket
+──────────────────────────────────
+Monthly fees:
+   $0.023 per GB - first 50 TB / month of storage used
+    └─  0.023 USD * 10 (GB-Mo) = 0.230 USD
+
+Total:
+
+ └─ Total Monthly: $0.23 /month
+
+dynamodb/ myDynamo
+──────────────────────────────────
+Monthly fees:
+   $0.00 per hour for 25 units of write capacity for a month (free tier)
+    └─  0 USD * 7300 (WriteCapacityUnit-Hrs) = 0.000 USD
+   $0.00 per hour for 25 units of read capacity for a month (free tier)
+    └─  0 USD * 7300 (ReadCapacityUnit-Hrs) = 0.000 USD
+   $0.00 per GB-Month of storage for first 25 free GB-Months
+    └─  0 USD * 1 (GB-Mo) = 0.000 USD
+
+Total:
+
+ └─ Total Monthly: $0.00 /month
 
 
 ══════════════════════════════════
-TOTAL
+TOTAL/
 ──────────────────────────────────
-  » Total Monthly: $50.24/month
-  » Initial Fee: $468.00
-  » Smoothed monthly: $89.24/month
 
-──────────────────────────────────
+Total:
+
+ └─ Total Monthly: $29.07 /month
+ └─ Initial Fee: $211.00
+ └─ Smoothed monthly: $46.66 /month
 
 ```
 
