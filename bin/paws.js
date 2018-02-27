@@ -15,7 +15,7 @@ const quoteFile = require('../lib/quoteFile');
 
 const pkg = require('../package');
 
-const notifier = updateNotifier({ pkg, updateCheckInterval: 1 });
+const notifier = updateNotifier({ pkg });
 
 program.version(pkg.version);
 
