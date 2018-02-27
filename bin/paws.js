@@ -4,6 +4,7 @@
 
 const program = require('commander');
 const colors = require('colors');
+const updateNotifier = require('update-notifier');
 
 const services = require('../lib/services');
 const util = require('../lib/util');
@@ -14,6 +15,7 @@ const quoteFile = require('../lib/quoteFile');
 
 const pkg = require('../package');
 
+const notifier = updateNotifier({ pkg, updateCheckInterval: 1 });
 
 program.version(pkg.version);
 
@@ -99,7 +101,8 @@ Object.keys(services).forEach((serviceName) => {
       const out = service.exec(name, params);
 
       if (params.output === 'json') {
-        return console.log(JSON.stringify(out));
+        console.log(JSON.stringify(out));
+        return process.exit();
       }
       if (command.output && command.output.pretty) {
         return command.output.pretty(out, params);
@@ -109,17 +112,17 @@ Object.keys(services).forEach((serviceName) => {
       }
       cli.error('error: Undefined output');
     });
-
     return c;
   })
-
-
 });
 
 program.command('quote <file>')
   .description('Quote from yaml file')
   .action((file) => {
     quoteFile(file)
-  })
+  });
+
 
 program.parse(process.argv);
+
+notifier.notify();
