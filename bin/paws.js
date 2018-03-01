@@ -9,13 +9,14 @@ const updateNotifier = require('update-notifier');
 const services = require('../lib/services');
 const util = require('../lib/util');
 const cli = require('../lib/cli');
-const pricing = require('../lib/pricing');
 const outputs = require('../lib/outputs');
 const quoteFile = require('../lib/quoteFile');
 
 const pkg = require('../package');
 
-const notifier = updateNotifier({ pkg });
+const notifier = updateNotifier({
+  pkg
+});
 
 program.version(pkg.version);
 
@@ -63,9 +64,9 @@ Object.keys(services).forEach((serviceName) => {
   program._execs[serviceCmd._name] = true;
 
   Object.keys(service.commands).forEach(name => {
-    const command = typeof service.commands[name] === 'function'
-      ? service.commands[name](service)
-      : service.commands[name];
+    const command = typeof service.commands[name] === 'function' ?
+      service.commands[name](service) :
+      service.commands[name];
     const c = serviceCmd.command(name);
     if (command.description) {
       c.description('Informations about service');
@@ -85,15 +86,17 @@ Object.keys(services).forEach((serviceName) => {
       for (const o of c.options) {
         const name = o.attributeName();
         const value = c[name];
-        if (o.required && ((typeof value === 'number' && isNaN(value)) || value === undefined || value === null)
-          || (!o.required && value !== o.defaultValue && value === undefined)) {
+        if (o.required && ((typeof value === 'number' && isNaN(value)) || value === undefined || value === null) ||
+          (!o.required && value !== o.defaultValue && value === undefined)) {
           cli.error(`error: option --${o.name()} is invalid\n`);
           c.outputHelp(colors.red);
           process.exit(1);
         }
       }
 
-      const params = { output: c.output };
+      const params = {
+        output: c.output
+      };
       for (const name in command.params) {
         params[name] = c[name];
       }

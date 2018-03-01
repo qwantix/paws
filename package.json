@@ -24,5 +24,8 @@
     "js-yaml": "^3.10.0",
     "sync-request": "^4.1.0",
     "update-notifier": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1"
   }
 }
